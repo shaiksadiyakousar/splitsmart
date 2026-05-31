@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="SplitSmart – Split expenses fairly and instantly with friends, roommates and teams." />
+  <title>SplitSmart – Split Expenses Fairly</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💸</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── NAVBAR ──────────────────────────────────────────── -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span class="brand-icon">💸</span>
+      <span class="brand-name">SplitSmart</span>
+    </div>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <span class="theme-icon" id="themeIcon">🌙</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ── HERO ───────────────────────────────────────────── -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">✨ No signups. No apps. Just math.</div>
+      <h1 class="hero-title">
+        Split expenses
+        <span class="hero-accent">fairly</span>
+        &amp; instantly
+      </h1>
+      <p class="hero-subtitle">
+        Stop doing mental math. SplitSmart divides bills between friends, roommates, and teams — instantly and fairly.
+      </p>
+      <div class="hero-cta">
+        <button class="btn-primary" onclick="scrollToApp()">
+          Start Splitting <span>→</span>
+        </button>
+        <div class="hero-stats">
+          <div class="hstat"><span id="statExpenses">0</span><small>Expenses</small></div>
+          <div class="hstat-divider"></div>
+          <div class="hstat"><span id="statAmount">₹0</span><small>Split</small></div>
+          <div class="hstat-divider"></div>
+          <div class="hstat"><span id="statPeople">0</span><small>People</small></div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="receipt-card">
+        <div class="receipt-header">
+          <span>🍕 Pizza Night</span>
+          <span class="receipt-amount">₹1,200</span>
+        </div>
+        <div class="receipt-divider"></div>
+        <div class="receipt-row"><span>👤 Ali</span><span class="chip">₹400</span></div>
+        <div class="receipt-row"><span>👤 Sara</span><span class="chip">₹400</span></div>
+        <div class="receipt-row"><span>👤 John</span><span class="chip">₹400</span></div>
+        <div class="receipt-footer">Split equally ✓</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── DASHBOARD CARDS ────────────────────────────────── -->
+  <section class="dashboard" id="app">
+    <div class="container">
+      <div class="dash-cards">
+        <div class="dash-card">
+          <div class="dash-icon">📊</div>
+          <div class="dash-info">
+            <span class="dash-value" id="dashExpenses">0</span>
+            <span class="dash-label">Total Expenses</span>
+          </div>
+        </div>
+        <div class="dash-card featured">
+          <div class="dash-icon">💰</div>
+          <div class="dash-info">
+            <span class="dash-value" id="dashAmount">₹0</span>
+            <span class="dash-label">Total Amount Split</span>
+          </div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-icon">👥</div>
+          <div class="dash-info">
+            <span class="dash-value" id="dashPeople">0</span>
+            <span class="dash-label">Total Participants</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MAIN APP ───────────────────────────────────────── -->
+  <section class="main-app">
+    <div class="container">
+      <div class="app-grid">
+
+        <!-- ADD EXPENSE FORM -->
+        <div class="glass-card form-card">
+          <div class="card-header">
+            <h2>➕ Add Expense</h2>
+            <p>Enter your expense details below</p>
+          </div>
+
+          <form id="expenseForm" novalidate>
+            <!-- Expense Title -->
+            <div class="form-group">
+              <label for="expenseTitle">Expense Title</label>
+              <input
+                type="text"
+                id="expenseTitle"
+                placeholder="e.g. Pizza Night, Road Trip, Rent..."
+                autocomplete="off"
+              />
+              <span class="error-msg" id="titleError"></span>
+            </div>
+
+            <!-- Amount -->
+            <div class="form-group">
+              <label for="expenseAmount">Total Amount (₹)</label>
+              <div class="input-prefix">
+                <span class="prefix">₹</span>
+                <input
+                  type="number"
+                  id="expenseAmount"
+                  placeholder="0.00"
+                  min="0"
+                  step="0.01"
+                />
+              </div>
+              <span class="error-msg" id="amountError"></span>
+            </div>
+
+            <!-- Number of people -->
+            <div class="form-group">
+              <label for="numPeople">Number of People</label>
+              <div class="number-control">
+                <button type="button" class="num-btn" id="decreaseBtn">−</button>
+                <input type="number" id="numPeople" value="2" min="2" max="20" readonly />
+                <button type="button" class="num-btn" id="increaseBtn">+</button>
+              </div>
+              <span class="error-msg" id="peopleError"></span>
+            </div>
+
+            <!-- Participant Names -->
+            <div class="form-group">
+              <label>Participant Names</label>
+              <div id="participantFields" class="participant-fields">
+                <!-- Dynamically generated -->
+              </div>
+              <span class="error-msg" id="namesError"></span>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="btn-primary full-width" id="calculateBtn">
+              <span>⚡ Calculate Split</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- RESULT SECTION -->
+        <div class="glass-card result-card" id="resultCard">
+          <div class="result-empty" id="resultEmpty">
+            <div class="empty-icon">🧮</div>
+            <p>Fill in the form and hit<br/><strong>Calculate Split</strong> to see results</p>
+          </div>
+          <div class="result-content" id="resultContent" style="display:none">
+            <div class="result-header">
+              <h2 id="resultTitle">Pizza Night</h2>
+              <div class="result-meta">
+                <span id="resultTotal"></span>
+                <span id="resultCount"></span>
+              </div>
+            </div>
+            <div class="result-divider"></div>
+            <div class="per-person-label">Each person pays:</div>
+            <div id="resultList" class="result-list"></div>
+            <div class="result-summary">
+              <div class="summary-row">
+                <span>Total Amount</span>
+                <strong id="summaryTotal"></strong>
+              </div>
+              <div class="summary-row">
+                <span>Per Person</span>
+                <strong id="summaryPer" class="highlight"></strong>
+              </div>
+            </div>
+            <button class="btn-save" id="saveBtn">
+              💾 Save to History
+            </button>
+            <div class="save-success" id="saveSuccess" style="display:none">
+              ✅ Saved to history!
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── EXPENSE HISTORY ────────────────────────────────── -->
+  <section class="history-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>📋 Expense History</h2>
+        <p>All your previously saved expense splits</p>
+      </div>
+
+      <!-- Search & Filter -->
+      <div class="search-bar">
+        <div class="search-input-wrap">
+          <span class="search-icon">🔍</span>
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search by expense title..."
+            autocomplete="off"
+          />
+          <button type="button" class="clear-search" id="clearSearch" style="display:none">✕</button>
+        </div>
+        <button type="button" class="btn-clear-all" id="clearAllBtn">🗑️ Clear All</button>
+      </div>
+
+      <!-- History List -->
+      <div id="historyList" class="history-list">
+        <!-- Dynamically rendered -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="historyEmpty" class="history-empty">
+        <div class="empty-icon">📭</div>
+        <p>No expenses saved yet.<br/>Calculate and save your first split!</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-brand">
+        <span>💸</span> SplitSmart
+      </div>
+      <p>Split fairly. Always. No signups, no data sent anywhere — everything stays in your browser.</p>
+      <p class="footer-small">Built with HTML · CSS · JavaScript · LocalStorage</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
