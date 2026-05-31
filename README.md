@@ -13,7 +13,6 @@ A cute kawaii aesthetic expense splitter web app built with pure HTML, CSS and J
 - Dynamic participant count and quick number controls.
 - Save calculated results to a searchable history.
 - Responsive, single-page UI (works on desktop and mobile).
-- Dark and light mode toggle with saved preference.
 - Local storage to save all expense history.
 - XSS protection for user inputs (basic sanitization before storage/display).
 
